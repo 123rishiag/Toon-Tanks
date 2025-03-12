@@ -4,6 +4,8 @@
 #include "Tank.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ATank::ATank()
 {
@@ -12,4 +14,50 @@ ATank::ATank()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
+}
+
+// Called to bind functionality to input
+void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATank::Move);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATank::Turn);
+
+}
+
+// Called every frame
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (PlayerControllerRef)
+	{
+		FHitResult HitResult;
+		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+
+		RotateTurret(HitResult.ImpactPoint);
+	}
+}
+
+// Called when the game starts or when spawned
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PlayerControllerRef = Cast<APlayerController>(GetController());
+}
+
+void ATank::Move(float value)
+{
+	FVector DeltaLocation = FVector::ZeroVector;
+	DeltaLocation.X = value * speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalOffset(DeltaLocation, true);
+}
+
+void ATank::Turn(float value)
+{
+	FRotator DeltaRotation = FRotator::ZeroRotator;
+	DeltaRotation.Yaw = value * turnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalRotation(DeltaRotation, true);
 }
