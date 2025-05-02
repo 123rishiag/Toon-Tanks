@@ -30,6 +30,9 @@ private:
 	void OnHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float Damage = 50.f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
