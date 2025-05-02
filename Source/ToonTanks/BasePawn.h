@@ -32,4 +32,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	TSubclassOf<class AProjectile> ProjectileClass;
 
+	UPROPERTY(VisibleAnywhere, Category = "Health")
+	class UHealthComponent* HealthComponent;
+
 };
