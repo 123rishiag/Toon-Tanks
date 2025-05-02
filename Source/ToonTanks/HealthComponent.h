@@ -30,6 +30,8 @@ private:
 	void DamageTaken(class AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 		class AController* Instigator, class AActor* DamageCauser);
 
+	class AToonTanksGameMode* ToonTanksGameMode;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
