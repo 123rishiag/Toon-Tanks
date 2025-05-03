@@ -37,4 +37,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	class UHealthComponent* HealthComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class UParticleSystem* DeathParticles;
+
 };
